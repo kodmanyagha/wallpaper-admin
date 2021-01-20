@@ -1,0 +1,18 @@
+select.site-changer {
+	width: 100%;
+}
+
+.site-changer-container {
+	display: block;
+	width: 100%;
+	padding: 0px 10px 0px 10px;
+}
+
+.nav-tabs .nav-item .nav-link {
+	text-transform: none;
+}
+
+.col-form-label {
+	display: flex;
+	align-items: center;
+}

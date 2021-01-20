@@ -1,0 +1,53 @@
+
+.nav-item > .collapse > .nav {
+	margin-top: 0px;	
+}
+
+.nav-item > .collapsing > .nav {
+	margin-top: 0px;	
+}
+
+.sidebar-wrapper > .nav > .active {
+	background-color: rgba(200, 200, 200, 0.2);
+	border: 0px solid rgba(45, 45, 45, 0.2);
+	border-radius: 5px;
+}
+
+.sidebar-wrapper > .nav > .nav-item {
+	padding: 0px 0px;
+	margin: 0px 5px;
+	border: 0px solid #00000000;
+}
+
+.sidebar .nav li a, .sidebar .nav li .dropdown-menu a  {
+	margin: 0px 0px 0;
+}
+
+.sidebar .nav li:first-child>a {
+	margin: 0 0px;
+}
+
+.nav > .active {
+
+}
+
+.test {
+	background-color: rgba(200, 200, 200, 0.2);
+}
+
+.nav-item div.collapse .nav-link {
+	padding-left: 35px;
+}
+
+.nav-item div.collapsing .nav-link {
+	padding-left: 35px;
+}
+
+.sidebar .nav i {
+	margin-right: 5px;	
+}
+
+.sidebar .sidebar-wrapper>.nav [data-toggle="collapse"]~div>ul>li>a .sidebar-mini, .sidebar .sidebar-wrapper .user .user-info [data-toggle="collapse"]~div>ul>li>a .sidebar-mini {
+	margin-right: 5px;
+}
+
