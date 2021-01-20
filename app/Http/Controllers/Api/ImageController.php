@@ -45,16 +45,23 @@ class ImageController extends ApiController
      */
     public function random()
     {
-        $queryInputs  = $this->queryInputStandardize();
-        $cacheKey     = 'random_' . $queryInputs->page . '_' . $queryInputs->limit;
-        $randomImages = s2o(Cache::get($cacheKey));
+        $queryInputs = $this->queryInputStandardize();
+        $cacheKey    = 'random_' . $queryInputs->page . '_' . $queryInputs->limit;
+        $images      = s2o(Cache::get($cacheKey));
 
-        if (is_null($randomImages)) {
-            $randomImages = mo(Image::all()->random($queryInputs->limit));
-            Cache::put($cacheKey, o2s($randomImages), now()->addMinutes(1));
+        if (is_null($images)) {
+            $images = Image::all()->random($queryInputs->limit);
+            foreach ($images as $image) {
+                $image->category;
+                $image->photographer;
+            }
+
+            Cache::put($cacheKey, o2s($images), now()->addMinutes(1));
         }
 
-        $this->set('images', $randomImages);
+        $this->set('images', $images);
+        $this->set('now', now());
+        $this->set('date', date('Y-m-d H:i:s'));
         return $this->success();
     }
 
@@ -73,6 +80,9 @@ class ImageController extends ApiController
 
             if (is_null($image))
                 return $this->error('Image not found.');
+
+            $image->category;
+            $image->photographer;
 
             $image = mo($image);
             Cache::put($cacheKey, o2s($image), now()->addMinutes(1));
@@ -111,6 +121,11 @@ class ImageController extends ApiController
                 ->limit($queryInputs->limit)
                 ->offset($queryInputs->offset)
                 ->get();
+
+            foreach ($images as $image) {
+                $image->category;
+                $image->photographer;
+            }
 
             $images = mo($images);
             Cache::put($cacheKey, o2s($images), now()->addMinutes(1));

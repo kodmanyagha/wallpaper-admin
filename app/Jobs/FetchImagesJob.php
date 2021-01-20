@@ -67,49 +67,53 @@ class FetchImagesJob implements ShouldQueue
         }
         /** @var Category $selectedCategory */
         $selectedCategory = Category::find($selectedCategoryId);
-        lgi($selectedCategory);
-
         PexelsFetcherRecord::insert(['category_id' => $selectedCategoryId]);
 
-        $response     = $httpClient->get('https://api.pexels.com/v1/search?query=' . urlencode($selectedCategory->slug) . '&per_page=80', [
-            "headers" => [
-                'Authorization' => '' . env('PEXELS_API_KEY', ''),
-            ]
-        ]);
-        $responseJson = json_decode($response->getBody()->getContents());
-        $photographer = null;
-        $image        = null;
+        $pages = [1, rand(2, 20)];
 
-        // TODO: We don't do anything with this for now. Must you save this value to db?
-        $totalImageAdded = 0;
-        foreach ($responseJson->photos as $photo) {
-            $photographer = Photographer::where(['remote_id' => $photo->photographer_id])->first();
-            if (is_null($photographer)) {
-                $photographer            = new Photographer();
-                $photographer->remote_id = $photo->photographer_id;
-                $photographer->name      = $photo->photographer;
-                $photographer->url       = $photo->photographer_url;
-                $photographer->save();
+        foreach ($pages as $page) {
+            $response     = $httpClient->get('https://api.pexels.com/v1/search?query=' . urlencode($selectedCategory->slug) . '&per_page=80&page=' . $page, [
+                "headers" => [
+                    'Authorization' => '' . env('PEXELS_API_KEY', ''),
+                ]
+            ]);
+            $responseJson = json_decode($response->getBody()->getContents());
+            $photographer = null;
+            $image        = null;
+
+            // TODO: We don't do anything with this for now. Must you save this value to db?
+            $totalImageAdded = 0;
+            foreach ($responseJson->photos as $photo) {
+                $photographer = Photographer::where(['remote_id' => $photo->photographer_id])->first();
+                if (is_null($photographer)) {
+                    $photographer            = new Photographer();
+                    $photographer->remote_id = $photo->photographer_id;
+                    $photographer->name      = $photo->photographer;
+                    $photographer->url       = $photo->photographer_url;
+                    $photographer->save();
+                }
+
+                $image = Image::where(['remote_id' => $photo->id])->first();
+                if (is_null($image)) {
+                    $totalImageAdded++;
+
+                    $image                  = new Image();
+                    $image->remote_id       = $photo->id;
+                    $image->category_id     = $selectedCategoryId;
+                    $image->photographer_id = $photographer->id;
+                    $image->height          = $photo->height;
+                    $image->width           = $photo->width;
+                    $image->avg_color       = $photo->avg_color;
+                    $image->url             = $photo->url;
+                    $image->original_url    = $photo->src->original;
+                    $image->tiny_url        = $photo->src->tiny;
+                    $image->save();
+                }
             }
+            lgi($selectedCategory->id . ': ' . $selectedCategory->title . ', Page: ' . $page . ', Added: ' . $totalImageAdded);
 
-            $image = Image::where(['remote_id' => $photo->id])->first();
-            if (is_null($image)) {
-                $totalImageAdded++;
-
-                $image                  = new Image();
-                $image->remote_id       = $photo->id;
-                $image->category_id     = $selectedCategoryId;
-                $image->photographer_id = $photographer->id;
-                $image->height          = $photo->height;
-                $image->width           = $photo->width;
-                $image->avg_color       = $photo->avg_color;
-                $image->url             = $photo->url;
-                $image->original_url    = $photo->src->original;
-                $image->tiny_url        = $photo->src->tiny;
-                $image->save();
-            }
+            sleep(1);
         }
-        lgi('Total image added: ' . $totalImageAdded);
     }
 
     protected function tzConvert($tz)
