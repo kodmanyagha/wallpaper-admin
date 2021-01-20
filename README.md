@@ -1,12 +1,13 @@
-## Form Manager
+## Wallpaper Admin Panel adn API
 
-Create and update forms, share it and export answers to excel.
+This app requesting Pexels API and storing them to database. And it is
+exposing these images via API.
 
 ### Features
-- ~~Create form.~~ (Form designer not finished yet, you must add forms to database)
-- Export answers to Excel.
-- Select date when exporting.
-- Send e-mail to admin when a form filled.
+- Built with Laravel 8, Mysql.
+- There is a Job for requesting and storing Pexels API.
+- There is API endpoint for mobile app.
+- Admin panel can manage everything.
 
 <div align="center"><strong>Admin panel screen</strong></div>
 
@@ -41,6 +42,4 @@ You can use the `startqueue.sh` file for automatically start at server restart.
 You can change logo in `storage/app/public/form/assets/img/logo.png` and `logo.gif` files. `logo.png` file is using in frontend, `logo.gif` file is usin in e-mail template.
 
 Have a nice day.
-
-
 
