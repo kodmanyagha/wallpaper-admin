@@ -13,13 +13,7 @@ exposing these images via API.
 
 ![](https://image.nixarsoft.com/di/KNE9/Screen_Shot_2021-01-15_at_10.png)
 
-<div align="center"><strong>Example forms</strong></div>
-
-![](https://image.nixarsoft.com/di/RKRJ/Screen_Shot_2021-01-15_at_10.png)
-![](https://image.nixarsoft.com/di/DJRM/Screen_Shot_2021-01-15_at_10.png)
-
 ## Installation
-
 
 ```
 git clone https://github.com/kodmanyagha/FormManager.git
