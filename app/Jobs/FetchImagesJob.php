@@ -74,7 +74,7 @@ class FetchImagesJob implements ShouldQueue
         foreach ($pages as $page) {
             $response     = $httpClient->get('https://api.pexels.com/v1/search?query=' . urlencode($selectedCategory->slug) . '&per_page=80&page=' . $page, [
                 "headers" => [
-                    'Authorization' => '' . env('PEXELS_API_KEY', ''),
+                    'Authorization' => 'Bearer ' . env('PEXELS_API_KEY', ''),
                 ]
             ]);
             $responseJson = json_decode($response->getBody()->getContents());
@@ -97,6 +97,10 @@ class FetchImagesJob implements ShouldQueue
                 if (is_null($image)) {
                     $totalImageAdded++;
 
+                    // https://www.pexels.com/photo/milky-way-illustration-1169754/
+                    $fileName = explode('/photo/', $photo->url)[1];
+                    $fileName = explode('/', $fileName)[0] . '.png';
+
                     $image                  = new Image();
                     $image->remote_id       = $photo->id;
                     $image->category_id     = $selectedCategoryId;
@@ -107,6 +111,7 @@ class FetchImagesJob implements ShouldQueue
                     $image->url             = $photo->url;
                     $image->original_url    = $photo->src->original;
                     $image->tiny_url        = $photo->src->tiny;
+                    $image->file_name       = $fileName;
                     $image->save();
                 }
             }

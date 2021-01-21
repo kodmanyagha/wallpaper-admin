@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string url
  * @property string original_url
  * @property string tiny_url
+ * @property string file_name
  * @property string created_at
  * @property string updated_at
  *

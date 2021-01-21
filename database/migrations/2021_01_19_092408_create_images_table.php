@@ -28,6 +28,7 @@ class CreateImagesTable extends Migration
             $table->string('url', 512)->nullable();
             $table->string('original_url', 512);
             $table->string('tiny_url', 512);
+            $table->string('file_name', 512)->nullable();
 
             cts($table);
 

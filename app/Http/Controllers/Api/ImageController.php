@@ -26,8 +26,8 @@ class ImageController extends ApiController
             $page = 1;
 
         $limit = (int)request()->input('limit', 10);
-        if (!in_array($limit, [10, 20, 30]))
-            $limit = 10;
+        if (!in_array($limit, [30, 60, 90]))
+            $limit = 30;
 
         $offset = $limit * ($page - 1);
 
@@ -56,12 +56,11 @@ class ImageController extends ApiController
                 $image->photographer;
             }
 
-            Cache::put($cacheKey, o2s($images), now()->addMinutes(1));
+            Cache::put($cacheKey, o2s($images), 60);
         }
 
         $this->set('images', $images);
-        $this->set('now', now());
-        $this->set('date', date('Y-m-d H:i:s'));
+        $this->set('pagination', $queryInputs);
         return $this->success();
     }
 
@@ -85,7 +84,7 @@ class ImageController extends ApiController
             $image->photographer;
 
             $image = mo($image);
-            Cache::put($cacheKey, o2s($image), now()->addMinutes(1));
+            Cache::put($cacheKey, o2s($image), 60);
         }
 
         $this->set('image', $image);
@@ -128,7 +127,7 @@ class ImageController extends ApiController
             }
 
             $images = mo($images);
-            Cache::put($cacheKey, o2s($images), now()->addMinutes(1));
+            Cache::put($cacheKey, o2s($images), 60);
         }
 
         $this->set('images', $images);
@@ -150,7 +149,7 @@ class ImageController extends ApiController
                 return $this->error('Category not found.');
 
             $categories = mo($categories);
-            Cache::put($cacheKey, o2s($categories), now()->addMinutes(1));
+            Cache::put($cacheKey, o2s($categories), 60);
         }
 
         $this->set('categories', $categories);
