@@ -72,7 +72,7 @@ class FetchImagesJob implements ShouldQueue
         $pages = [1, rand(2, 20)];
 
         foreach ($pages as $page) {
-            $response     = $httpClient->get('https://api.pexels.com/v1/search?query=' . urlencode($selectedCategory->slug) . '&per_page=80&page=' . $page, [
+            $response     = $httpClient->get('https://api.pexels.com/v1/search?locale=tr-TR&query=' . urlencode($selectedCategory->slug) . '&per_page=80&page=' . $page, [
                 "headers" => [
                     'Authorization' => 'Bearer ' . env('PEXELS_API_KEY', ''),
                 ]
