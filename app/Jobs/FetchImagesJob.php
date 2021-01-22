@@ -98,7 +98,11 @@ class FetchImagesJob implements ShouldQueue
                     $totalImageAdded++;
 
                     // https://www.pexels.com/photo/milky-way-illustration-1169754/
-                    $fileName = explode('/photo/', $photo->url)[1];
+                    lgi($photo->url);
+                    $explodedUrl = explode('/', $photo->url);
+                    $explodedUrl = array_reverse($explodedUrl);
+                    array_shift($explodedUrl);
+                    $fileName = array_shift($explodedUrl);
                     $fileName = explode('/', $fileName)[0] . '.png';
 
                     $image                  = new Image();
