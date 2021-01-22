@@ -97,8 +97,7 @@ class FetchImagesJob implements ShouldQueue
                 if (is_null($image)) {
                     $totalImageAdded++;
 
-                    // https://www.pexels.com/photo/milky-way-illustration-1169754/
-                    lgi($photo->url);
+                    // https://www.pexels.com/tr-tr/fotograf/binanin-mimari-fotografciligi-421129/
                     $explodedUrl = explode('/', $photo->url);
                     $explodedUrl = array_reverse($explodedUrl);
                     array_shift($explodedUrl);
