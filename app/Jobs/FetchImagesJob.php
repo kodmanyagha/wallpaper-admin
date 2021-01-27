@@ -102,7 +102,7 @@ class FetchImagesJob implements ShouldQueue
                     $explodedUrl = array_reverse($explodedUrl);
                     array_shift($explodedUrl);
                     $fileName = array_shift($explodedUrl);
-                    $fileName = explode('/', $fileName)[0] . '.png';
+                    $fileName = explode('/', $fileName)[0] . '.jpeg';
 
                     $image                  = new Image();
                     $image->remote_id       = $photo->id;
